@@ -118,7 +118,8 @@ class InputFeatures(object):
         self.end_position = end_position
         self.is_impossible = is_impossible
 
-
+#squadデータの読み込み
+#SquadExample型のクラスのリストを返す
 def read_squad_examples(input_file, is_training, version_2_with_negative):
     """Read a SQuAD json file into a list of SquadExample."""
     with open(input_file, "r", encoding='utf-8') as reader:
@@ -204,6 +205,7 @@ def convert_examples_to_features(examples, tokenizer, max_seq_length,
     unique_id = 1000000000
 
     features = []
+    #一つの質問ごと
     for (example_index, example) in enumerate(examples):
         query_tokens = tokenizer.tokenize(example.question_text)
 
@@ -869,6 +871,7 @@ def main():
                         help="Loss scaling to improve fp16 numeric stability. Only used when fp16 set to True.\n"
                              "0 (default value): dynamic loss scaling.\n"
                              "Positive power of 2: static loss scaling value.\n")
+    #バージョン2の解答なしがあるか
     parser.add_argument('--version_2_with_negative',
                         action='store_true',
                         help='If true, the SQuAD examples contain some that do not have an answer.')
@@ -909,8 +912,8 @@ def main():
                         level = logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
 
     #ログの出力先
-    get_handler = logging.FileHandler(args.log_file)
-    logger.addHandler(get_handler)
+    #get_handler = logging.FileHandler(args.log_file)
+    #logger.addHandler(get_handler)
 
     logger.info("device: {} n_gpu: {}, distributed training: {}, 16-bits training: {}".format(
         device, n_gpu, bool(args.local_rank != -1), args.fp16))
@@ -952,6 +955,8 @@ def main():
 
     train_examples = None
     num_train_optimization_steps = None
+
+    #train_fileの読み込み
     if args.do_train:
         train_examples = read_squad_examples(
             input_file=args.train_file, is_training=True, version_2_with_negative=args.version_2_with_negative)
@@ -962,6 +967,7 @@ def main():
 
     # Prepare model
     #モデル。QuestionAnswer用のものを使用する
+    #このダウンロードに時間がかかっていた。すでに終了
     model = BertForQuestionAnswering.from_pretrained(args.bert_model,
                 cache_dir=os.path.join(str(PYTORCH_PRETRAINED_BERT_CACHE), 'distributed_{}'.format(args.local_rank)))
 
@@ -980,7 +986,7 @@ def main():
 
     # Prepare optimizer
     param_optimizer = list(model.named_parameters())
-
+    print("test")
     # hack to remove pooler, which is not used
     # thus it produce None grad that break apex
     param_optimizer = [n for n in param_optimizer if 'pooler' not in n[0]]
@@ -991,6 +997,7 @@ def main():
         {'params': [p for n, p in param_optimizer if any(nd in n for nd in no_decay)], 'weight_decay': 0.0}
         ]
 
+    #optimizerの設定
     #16ビットのデータを用いる場合
     if args.fp16:
         try:
@@ -1014,14 +1021,17 @@ def main():
                              lr=args.learning_rate,
                              warmup=args.warmup_proportion,
                              t_total=num_train_optimization_steps)
+    print("test")
     global_step = 0
     if args.do_train:
         cached_train_features_file = args.train_file+'_{0}_{1}_{2}_{3}'.format(
             list(filter(None, args.bert_model.split('/'))).pop(), str(args.max_seq_length), str(args.doc_stride), str(args.max_query_length))
         train_features = None
+        #trainデータセットを開く
         try:
             with open(cached_train_features_file, "rb") as reader:
                 train_features = pickle.load(reader)
+        #開けない場合は保存する
         except:
             train_features = convert_examples_to_features(
                 examples=train_examples,
@@ -1054,9 +1064,9 @@ def main():
 
         model.train()
         #エポック毎
-        for epoch in trange(int(args.num_train_epochs), desc="Epoch"):
-            #バッチごと、バッチごとにtqdm
-            for step, batch in enumerate(tqdm(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0])):
+        for epoch in int(args.num_train_epochs, desc="Epoch"):
+            #バッチごと
+            for step, batch in enumerate(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0]):
                 if n_gpu == 1:
                     batch = tuple(t.to(device) for t in batch) # multi-gpu does scattering it-self
                 input_ids, input_mask, segment_ids, start_positions, end_positions = batch
@@ -1084,8 +1094,8 @@ def main():
                     optimizer.step()
                     optimizer.zero_grad()
                     global_step += 1
-                if (step+1) % 100 ==0:
-                    print("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
+                if (step+1) % 500 ==0:
+                    logger.info("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
 
     #モデルをセーブする
     if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
