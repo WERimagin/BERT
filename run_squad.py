@@ -829,6 +829,10 @@ def main():
     parser.add_argument("--verbose_logging", action='store_true',
                         help="If true, all of the warnings related to data processing will be printed. "
                              "A number of warnings are expected for a normal SQuAD evaluation.")
+    parser.add_argument('--log_file',
+                        type=str,
+                        default="log_file",
+                        help="log_file")
     #cudaを使用するか
     parser.add_argument("--no_cuda",
                         action='store_true',
@@ -904,6 +908,10 @@ def main():
     logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
                         datefmt = '%m/%d/%Y %H:%M:%S',
                         level = logging.INFO if args.local_rank in [-1, 0] else logging.WARN)
+
+    #ログの出力先
+    get_handler = logging.FileHandler(args.log_file)
+    logger.addHandler(get_handler)
 
     logger.info("device: {} n_gpu: {}, distributed training: {}, 16-bits training: {}".format(
         device, n_gpu, bool(args.local_rank != -1), args.fp16))
