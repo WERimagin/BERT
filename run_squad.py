@@ -1015,7 +1015,6 @@ def main():
                              lr=args.learning_rate,
                              warmup=args.warmup_proportion,
                              t_total=num_train_optimization_steps)
-    dfdfdfd
     global_step = 0
     if args.do_train:
         cached_train_features_file = args.train_file+'_{0}_{1}_{2}_{3}'.format(
@@ -1088,6 +1087,8 @@ def main():
                     global_step += 1
                 if (step+1) % 10 ==0:
                     print("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
+
+    print(dafdasfasdfdfa)
 
     #モデルをセーブする
     if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
