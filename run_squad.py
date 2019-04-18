@@ -878,7 +878,6 @@ def main():
     parser.add_argument('--server_ip', type=str, default='', help="Can be used for distant debugging.")
     parser.add_argument('--server_port', type=str, default='', help="Can be used for distant debugging.")
     args = parser.parse_args()
-    print(args)
 
     if args.server_ip and args.server_port:
         # Distant debugging - see https://code.visualstudio.com/docs/python/debugging#_attach-to-a-local-script
@@ -890,8 +889,8 @@ def main():
     #gpuを使えない場合
     if args.no_cuda:
         device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
-        #gpuの数=-1?
         n_gpu = torch.cuda.device_count()
+        n_gpu=1
     #gpuを使用する場合
     elif args.local_rank == -1:
         torch.cuda.set_device(args.gpu_id)
@@ -1087,9 +1086,6 @@ def main():
                     global_step += 1
                 if (step+1) % 10 ==0:
                     print("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
-
-    print(dafdasfasdfdfa)
-    fdafdafa=fafafasdgasgf
 
     #モデルをセーブする
     if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0):

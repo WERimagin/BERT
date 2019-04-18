@@ -1,0 +1,3 @@
+device: cpu n_gpu: 1, distributed training: False, 16-bits training: False
+device: cpu n_gpu: 1, distributed training: False, 16-bits training: False
+device: cpu n_gpu: 1, distributed training: False, 16-bits training: False
