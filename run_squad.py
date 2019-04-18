@@ -1089,6 +1089,7 @@ def main():
                     print("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
 
     print(dafdasfasdfdfa)
+    fdafdafa=fafafasdgasgf
 
     #モデルをセーブする
     if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
