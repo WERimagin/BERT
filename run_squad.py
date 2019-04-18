@@ -1016,9 +1016,6 @@ def main():
                              warmup=args.warmup_proportion,
                              t_total=num_train_optimization_steps)
 
-    logger.info("test")
-    logger.info("test%d",1)
-
     global_step = 0
     if args.do_train:
         cached_train_features_file = args.train_file+'_{0}_{1}_{2}_{3}'.format(
@@ -1039,8 +1036,6 @@ def main():
                 logger.info("  Saving train features into cached file %s", cached_train_features_file)
                 with open(cached_train_features_file, "wb") as writer:
                     pickle.dump(train_features, writer)
-        logger.info("test")
-        logger.info("test%d",1)
         logger.info("***** Running training *****")
         logger.info("  Num orig examples = %d", len(train_examples))
         logger.info("  Num split examples = %d", len(train_features))
@@ -1092,7 +1087,7 @@ def main():
                     optimizer.zero_grad()
                     global_step += 1
                 if (step+1) % 100 ==0:
-                    logger.info("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
+                    print("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
 
     #モデルをセーブする
     if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
