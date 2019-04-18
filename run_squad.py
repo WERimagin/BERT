@@ -986,7 +986,6 @@ def main():
 
     # Prepare optimizer
     param_optimizer = list(model.named_parameters())
-    print("test")
     # hack to remove pooler, which is not used
     # thus it produce None grad that break apex
     param_optimizer = [n for n in param_optimizer if 'pooler' not in n[0]]
@@ -1021,7 +1020,6 @@ def main():
                              lr=args.learning_rate,
                              warmup=args.warmup_proportion,
                              t_total=num_train_optimization_steps)
-    print("test")
     global_step = 0
     if args.do_train:
         cached_train_features_file = args.train_file+'_{0}_{1}_{2}_{3}'.format(
@@ -1064,7 +1062,7 @@ def main():
 
         model.train()
         #エポック毎
-        for epoch in int(args.num_train_epochs):
+        for epoch in range(int(args.num_train_epochs)):
             #バッチごと
             for step, batch in enumerate(train_dataloader):
                 if n_gpu == 1:
