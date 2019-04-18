@@ -1064,7 +1064,7 @@ def main():
         #エポック毎
         for epoch in range(int(args.num_train_epochs)):
             #バッチごと
-            for step, batch in enumerate(train_dataloader):
+            for step, batch in tqdm(enumerate(train_dataloader)):
                 if n_gpu == 1:
                     batch = tuple(t.to(device) for t in batch) # multi-gpu does scattering it-self
                 input_ids, input_mask, segment_ids, start_positions, end_positions = batch
@@ -1092,7 +1092,7 @@ def main():
                     optimizer.step()
                     optimizer.zero_grad()
                     global_step += 1
-                if (step+1) % 100 ==0:
+                if step % 100 ==0:
                     logger.info("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
 
     #モデルをセーブする
