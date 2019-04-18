@@ -7,7 +7,7 @@ largeで1エポック２時間程度
 3エポックで6時間
 
 python ./run_squad.py \
-  --bert_model bert-large-uncased \
+  --bert_model bert-base-uncased \
   --do_train \
   --do_predict \
   --do_lower_case \
@@ -18,7 +18,7 @@ python ./run_squad.py \
   --max_seq_length 384 \
   --doc_stride 128 \
   --output_dir data/ \
-  --train_batch_size 24 \
+  --train_batch_size 12 \
   --gradient_accumulation_steps 2 \
   --gpu_id 3 --log_file data/log_file.txt
 
