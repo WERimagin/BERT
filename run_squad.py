@@ -1086,7 +1086,7 @@ def main():
                     optimizer.step()
                     optimizer.zero_grad()
                     global_step += 1
-                if (step+1) % 100 ==0:
+                if (step+1) % 10 ==0:
                     print("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
 
     #モデルをセーブする
