@@ -1064,9 +1064,9 @@ def main():
 
         model.train()
         #エポック毎
-        for epoch in int(args.num_train_epochs, desc="Epoch"):
+        for epoch in int(args.num_train_epochs):
             #バッチごと
-            for step, batch in enumerate(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0]):
+            for step, batch in enumerate(train_dataloader):
                 if n_gpu == 1:
                     batch = tuple(t.to(device) for t in batch) # multi-gpu does scattering it-self
                 input_ids, input_mask, segment_ids, start_positions, end_positions = batch
