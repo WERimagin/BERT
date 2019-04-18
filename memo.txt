@@ -1,0 +1,68 @@
+BERT
+
+export SQUAD_DIR=/path/to/SQUAD
+
+python ./run_squad.py \
+  --bert_model bert-large-uncased \
+  --do_train \
+  --do_predict \
+  --do_lower_case \
+  --train_file data/train-v1.1.json \
+  --predict_file data//dev-v1.1.json \
+  --learning_rate 3e-5 \
+  --num_train_epochs 2 \
+  --max_seq_length 384 \
+  --doc_stride 128 \
+  --output_dir data/ \
+  --train_batch_size 24 \
+  --gradient_accumulation_steps 2
+
+fp16の場合
+python ./run_squad.py \
+  --bert_model bert-large-uncased \
+  --do_train \
+  --do_predict \
+  --do_lower_case \
+  --train_file data/train-v1.1.json \
+  --predict_file data/dev-v1.1.json \
+  --learning_rate 3e-5 \
+  --num_train_epochs 2 \
+  --max_seq_length 384 \
+  --doc_stride 128 \
+  --output_dir data/ \
+  --train_batch_size 24 \
+  --fp16 \
+  --loss_scale 128
+
+#概要
+以下のクラスがある
+Bert
+  BertModel:生のbertモデル、事前訓練済み
+  BertForMakedLM:マスクLM層付きのモデル
+  BertForNextSentencePrediction:隣接文推定の層付きのモデル
+  BertForPreTraining
+    マスクLMと隣接文推定の層が乗ったモデル
+    (他との違いは一体)MaskedLMとNextSentencePredictionのそれぞれの出力をするということか？
+  BertForSequenceClassification
+    分類層が乗っているモデル。ただし、分類層は学習されていない
+  BertForMultipleChoice
+    Swagのような複数選択肢の問題のための層が乗っているモデル
+    ただしその層は学習していない
+  BertForTokenClassification
+    トークン分類の層が乗っている
+  BertForQuestionAnswering
+    質疑応答用の層が乗っている
+
+BasicTokenizer
+  Bert用のトークナイザ。単語レベルの普通の分割
+BertAdam
+  Bert用の最適化。事前学習の状態を反映
+BertConfig
+その他BertのモデルやOpenAI GPT,Transformer-XL,OpenAI GPT-2などのモデルやトークナイザなど
+
+コードの例:exampleの中
+  extract_features.py:bertモデルからの隠れ状態の取り出し方
+  run_classifier.py:GLUEタスクでのfinetuneの仕方
+  run_squad:squadでのfinetuneの仕方
+  fun_swag:SWAGでのfinetune
+  simple_lm_finetuning:??のfinetune
