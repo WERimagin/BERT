@@ -15,7 +15,8 @@ python ./run_squad.py \
   --doc_stride 128 \
   --output_dir data/ \
   --train_batch_size 24 \
-  --gradient_accumulation_steps 2
+  --gradient_accumulation_steps 2 \
+  --gpu_id 3
 
 fp16の場合
 python ./run_squad.py \

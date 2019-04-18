@@ -764,44 +764,72 @@ def main():
     parser = argparse.ArgumentParser()
 
     ## Required parameters
+
+    #bertの基本のモデル。bert-base-uncasedかbert-large-uncasedが基本
     parser.add_argument("--bert_model", default=None, type=str, required=True,
                         help="Bert pre-trained model selected in the list: bert-base-uncased, "
                         "bert-large-uncased, bert-base-cased, bert-large-cased, bert-base-multilingual-uncased, "
                         "bert-base-multilingual-cased, bert-base-chinese.")
+
+    #出力先のフォルダ
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model checkpoints and predictions will be written.")
 
     ## Other parameters
+    #trainファイル
     parser.add_argument("--train_file", default=None, type=str, help="SQuAD json for training. E.g., train-v1.1.json")
+
+    #devファイル
     parser.add_argument("--predict_file", default=None, type=str,
                         help="SQuAD json for predictions. E.g., dev-v1.1.json or test-v1.1.json")
+
+    #トークナイズ後の最大長、これより長いものは捨てられ、短いものはパッディングされる
     parser.add_argument("--max_seq_length", default=384, type=int,
                         help="The maximum total input sequence length after WordPiece tokenization. Sequences "
                              "longer than this will be truncated, and sequences shorter than this will be padded.")
+
+    #ストライド？
     parser.add_argument("--doc_stride", default=128, type=int,
                         help="When splitting up a long document into chunks, how much stride to take between chunks.")
+
+    #質問文の最大長
     parser.add_argument("--max_query_length", default=64, type=int,
                         help="The maximum number of tokens for the question. Questions longer than this will "
                              "be truncated to this length.")
+
+    #学習を行うか
     parser.add_argument("--do_train", action='store_true', help="Whether to run training.")
+
+    #予測を行うか
     parser.add_argument("--do_predict", action='store_true', help="Whether to run eval on the dev set.")
+
+    #学習のバッチサイズ
     parser.add_argument("--train_batch_size", default=32, type=int, help="Total batch size for training.")
+
+    #予測のバッチサイズ
     parser.add_argument("--predict_batch_size", default=8, type=int, help="Total batch size for predictions.")
+    #学習率
     parser.add_argument("--learning_rate", default=5e-5, type=float, help="The initial learning rate for Adam.")
+    #エポック数(少数とは)
     parser.add_argument("--num_train_epochs", default=3.0, type=float,
                         help="Total number of training epochs to perform.")
+    #全体の何割をウォームアップに使うか
     parser.add_argument("--warmup_proportion", default=0.1, type=float,
                         help="Proportion of training to perform linear learning rate warmup for. E.g., 0.1 = 10%% "
                              "of training.")
+    #n_bestの数
     parser.add_argument("--n_best_size", default=20, type=int,
                         help="The total number of n-best predictions to generate in the nbest_predictions.json "
                              "output file.")
+    #解答の最大長
     parser.add_argument("--max_answer_length", default=30, type=int,
                         help="The maximum length of an answer that can be generated. This is needed because the start "
                              "and end predictions are not conditioned on one another.")
+    #警告を出すか
     parser.add_argument("--verbose_logging", action='store_true',
                         help="If true, all of the warnings related to data processing will be printed. "
                              "A number of warnings are expected for a normal SQuAD evaluation.")
+    #cudaを使用するか
     parser.add_argument("--no_cuda",
                         action='store_true',
                         help="Whether not to use CUDA when available")
@@ -813,9 +841,18 @@ def main():
                         type=int,
                         default=1,
                         help="Number of updates steps to accumulate before performing a backward/update pass.")
+
+    #文字を小文字にするか
     parser.add_argument("--do_lower_case",
                         action='store_true',
                         help="Whether to lower case the input text. True for uncased models, False for cased models.")
+    #gpuの番号、分散学習の場合
+    parser.add_argument("--gpu_id",
+                        type=int,
+                        default=-1,
+                        help="gpu id")
+
+    #gpuの番号、分散学習の場合
     parser.add_argument("--local_rank",
                         type=int,
                         default=-1,
@@ -846,9 +883,17 @@ def main():
         ptvsd.enable_attach(address=(args.server_ip, args.server_port), redirect_output=True)
         ptvsd.wait_for_attach()
 
-    if args.local_rank == -1 or args.no_cuda:
+    #gpuを使えない場合
+    if args.no_cuda:
         device = torch.device("cuda" if torch.cuda.is_available() and not args.no_cuda else "cpu")
+        #gpuの数=-1?
         n_gpu = torch.cuda.device_count()
+    #gpuを使用する場合
+    elif args.local_rank == -1:
+        torch.cuda.set_device(args.gpu_id)
+        device = torch.device("cuda", args.gpu_id)
+        n_gpu = 1
+    #gpuを使えて分散学習をする場合
     else:
         torch.cuda.set_device(args.local_rank)
         device = torch.device("cuda", args.local_rank)
@@ -1030,6 +1075,7 @@ def main():
                     optimizer.zero_grad()
                     global_step += 1
 
+    #モデルをセーブする
     if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
         # Save a trained model, configuration and tokenizer
         model_to_save = model.module if hasattr(model, 'module') else model  # Only save the model it-self
