@@ -1,14 +1,18 @@
 BERT
+https://github.com/huggingface/pytorch-pretrained-BERT#Fine-tuning-with-BERT-running-the-examples
 
 export SQUAD_DIR=/path/to/SQUAD
+
+largeで1エポック２時間程度
+3エポックで6時間
 
 python ./run_squad.py \
   --bert_model bert-large-uncased \
   --do_train \
   --do_predict \
   --do_lower_case \
-  --train_file data/train-v1.1.json \
-  --predict_file data//dev-v1.1.json \
+  --train_file data/squad-train-v1.1.json \
+  --predict_file data/squad-dev-v1.1.json \
   --learning_rate 3e-5 \
   --num_train_epochs 2 \
   --max_seq_length 384 \
@@ -16,7 +20,7 @@ python ./run_squad.py \
   --output_dir data/ \
   --train_batch_size 24 \
   --gradient_accumulation_steps 2 \
-  --gpu_id 3
+  --gpu_id 3 --log_file data/log_file.txt
 
 fp16の場合
 python ./run_squad.py \
