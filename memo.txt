@@ -39,6 +39,10 @@ python ./run_squad.py \
   --fp16 \
   --loss_scale 128
 
+python evaluate.py \
+--dataset_file data/squad-dev-v1.1.dataset_json \
+--prediction_file data/predictions.json
+
 #概要
 以下のクラスがある
 Bert
