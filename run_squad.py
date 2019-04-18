@@ -1048,8 +1048,8 @@ def main():
 
         model.train()
         #エポック毎
-        for _ in trange(int(args.num_train_epochs), desc="Epoch"):
-            #バッチごと
+        for epoch in trange(int(args.num_train_epochs), desc="Epoch"):
+            #バッチごと、バッチごとにtqdm
             for step, batch in enumerate(tqdm(train_dataloader, desc="Iteration", disable=args.local_rank not in [-1, 0])):
                 if n_gpu == 1:
                     batch = tuple(t.to(device) for t in batch) # multi-gpu does scattering it-self
@@ -1066,6 +1066,7 @@ def main():
                     optimizer.backward(loss)
                 else:
                     loss.backward()
+                #2ステップごとに更新を行う
                 if (step + 1) % args.gradient_accumulation_steps == 0:
                     if args.fp16:
                         # modify learning rate with special warm up BERT uses
@@ -1077,6 +1078,8 @@ def main():
                     optimizer.step()
                     optimizer.zero_grad()
                     global_step += 1
+                if (step+1) % 100 ==0:
+                    logger.info("Epoch:{} step:{} loss:{}".format(epoch,step,loss.item()))
 
     #モデルをセーブする
     if args.do_train and (args.local_rank == -1 or torch.distributed.get_rank() == 0):
