@@ -152,8 +152,8 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 new_qas["question"]=modify_question
                 new_paragraph["qas"].append(new_qas)
 
-        new_topic["paragraphs"].append(new_paragraph)
-    new_data["data"].append(new_topic)
+            new_topic["paragraphs"].append(new_paragraph)
+        new_data["data"].append(new_topic)
 
 
     if use_interro==False:
