@@ -1,0 +1,17 @@
+[I 15:01:01.007 NotebookApp] JupyterLab beta preview extension loaded from /usr/local/lib/python2.7/site-packages/jupyterlab
+[I 15:01:01.008 NotebookApp] JupyterLab application directory is /usr/local/share/jupyter/lab
+[I 15:01:01.023 NotebookApp] Serving notebooks from local directory: /Users/sasazawa/Desktop/BERT
+[I 15:01:01.023 NotebookApp] 0 active kernels
+[I 15:01:01.024 NotebookApp] The Jupyter Notebook is running at:
+[I 15:01:01.024 NotebookApp] http://localhost:8888/?token=ee656a73b852ad512e2fec6ce2552ac4b7b5e6756d58d208
+[I 15:01:01.024 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 15:01:01.025 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:8888/?token=ee656a73b852ad512e2fec6ce2552ac4b7b5e6756d58d208&token=ee656a73b852ad512e2fec6ce2552ac4b7b5e6756d58d208
+[I 15:01:01.449 NotebookApp] Accepting one-time-token-authenticated connection from ::1
+[W 15:01:08.172 NotebookApp] 404 GET /api/kernels/e1805dc4-90df-45c5-8b4d-3222fbc68bd0/channels?session_id=a43336f937b24997987726fc025175a3 (::1): Kernel does not exist: e1805dc4-90df-45c5-8b4d-3222fbc68bd0
+[W 15:01:08.181 NotebookApp] 404 GET /api/kernels/e1805dc4-90df-45c5-8b4d-3222fbc68bd0/channels?session_id=a43336f937b24997987726fc025175a3 (::1) 22.25ms referer=None
+[C 15:01:17.891 NotebookApp] received signal 15, stopping
+[I 15:01:17.892 NotebookApp] Shutting down 0 kernels
