@@ -108,7 +108,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 "version":"1.1"}
     for topic in tqdm(data["data"]):
         new_topic={"title":topic["title"],
-                    "paragraphs":topic["paragraphs"]}
+                    "paragraphs":[]}
         topic=topic["paragraphs"]
 
         for paragraph in topic:
@@ -117,8 +117,6 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
             context_text=paragraph["context"].lower()
 
             for qas in paragraph["qas"]:
-                if all_count>10:
-                    break
                 sentence_text=interro_data[all_count]["sentence_text"]
                 question_text=interro_data[all_count]["question_text"]
                 answer_text=interro_data[all_count]["answer_text"]
@@ -153,7 +151,6 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 new_qas["id"]=new_qas["id"]+"-modify_question"
                 new_qas["question"]=modify_question
                 new_paragraph["qas"].append(new_qas)
-                print(new_paragraph["qas"])
 
         new_topic["paragraphs"].append(new_paragraph)
     new_data["data"].append(new_topic)
