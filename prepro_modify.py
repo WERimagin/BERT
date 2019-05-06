@@ -112,7 +112,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
 
         for paragraph in topic:
             new_paragraph={"context":paragraph["context"],
-                            "qas":[]
+                            "qas":[]}
             context_text=paragraph["context"].lower()
 
             for qas in paragraph["qas"]:
