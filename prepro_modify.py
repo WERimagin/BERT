@@ -109,9 +109,9 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
     for topic in tqdm(data["data"]):
         new_topic={"title":topic["title"],
                     "paragraphs":[]}
-        topic=topic["paragraphs"]
+        print(new_topic["title"])
 
-        for paragraph in topic:
+        for paragraph in topic["paragraphs"]:
             new_paragraph={"context":paragraph["context"],
                             "qas":[]}
             context_text=paragraph["context"].lower()
@@ -153,9 +153,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 new_paragraph["qas"].append(new_qas)
 
         new_topic["paragraphs"].append(new_paragraph)
-        print(new_topic["title"])
     new_data["data"].append(new_topic)
-    print(new_data["data"][0]["title"])
 
 
     if use_interro==False:
