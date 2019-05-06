@@ -318,7 +318,7 @@ def convert_examples_to_features(examples, tokenizer, max_seq_length,
             if is_training and example.is_impossible:
                 start_position = 0
                 end_position = 0
-            if example_index < 20:
+            if example_index < 3:
                 logger.info("*** Example ***")
                 logger.info("unique_id: %s" % (unique_id))
                 logger.info("example_index: %s" % (example_index))
@@ -1027,18 +1027,7 @@ def main():
         cached_train_features_file = args.train_file+'_{0}_{1}_{2}_{3}'.format(
             list(filter(None, args.bert_model.split('/'))).pop(), str(args.max_seq_length), str(args.doc_stride), str(args.max_query_length))
         #train_features = None
-        train_features = convert_examples_to_features(
-            examples=train_examples,
-            tokenizer=tokenizer,
-            max_seq_length=args.max_seq_length,
-            doc_stride=args.doc_stride,
-            max_query_length=args.max_query_length,
-            is_training=True)
-        if args.local_rank == -1 or torch.distributed.get_rank() == 0:
-            logger.info("  Saving train features into cached file %s", cached_train_features_file)
-            with open(cached_train_features_file, "wb") as writer:
-                pickle.dump(train_features, writer)
-        """
+
         #trainデータセットを開く
         try:
             with open(cached_train_features_file, "rb") as reader:
@@ -1056,7 +1045,6 @@ def main():
                 logger.info("  Saving train features into cached file %s", cached_train_features_file)
                 with open(cached_train_features_file, "wb") as writer:
                     pickle.dump(train_features, writer)
-        """
         logger.info("***** Running training *****")
         logger.info("  Num orig examples = %d", len(train_examples))
         logger.info("  Num split examples = %d", len(train_features))
