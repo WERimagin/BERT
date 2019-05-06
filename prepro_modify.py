@@ -162,10 +162,10 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
         setting="modify-interro"
 
     if train:
-        with open("data/squad-train-{}.json".format(type),"w")as f:
+        with open("data/squad-train-{}.json".format(setting),"w")as f:
             json.dump(new_data,f,indent=4)
     else:
-        with open("data/squad-dev-{}.json".format(type),"w")as f:
+        with open("data/squad-dev-{}.json".format(setting),"w")as f:
             json.dump(new_data,f,indent=4)
 
 
