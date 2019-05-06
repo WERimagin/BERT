@@ -174,13 +174,13 @@ if __name__ == "__main__":
 
     data_process(input_path="data/squad-dev-v1.1.json",
                 interro_path="data/squad-data-dev.json",
-                modify_path1="data/squad-pred-val-interro.json",
-                modify_path2="data/squad-pred-test-interro.json",
+                modify_path1="data/squad-pred-val-interro.txt",
+                modify_path2="data/squad-pred-test-interro.txt",
                 train=False
                 )
 
     data_process(input_path="data/squad-train-v1.1.json",
                 interro_path="data/squad-data-train.json",
-                modify_path1="data/squad-pred-train-interro.json",
+                modify_path1="data/squad-pred-train-interro.txt",
                 train=True
                 )
