@@ -110,6 +110,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
         new_topic={"title":topic["title"],
                     "paragraphs":[]}
         topic=topic["paragraphs"]
+        print(topic["title"])
 
         for paragraph in topic:
             new_paragraph={"context":paragraph["context"],
