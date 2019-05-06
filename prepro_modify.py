@@ -88,10 +88,11 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
         for line in f:
             modify_data.append(line.rstrip())
     if modify_path2!="":
-        with open(modify_path1,"r") as f:
+        with open(modify_path2,"r") as f:
             for line in f:
                 modify_data.append(line.rstrip())
 
+    print(len(modify_data))
     use_interro=True
 
     questions=[]
