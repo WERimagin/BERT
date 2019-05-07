@@ -777,6 +777,12 @@ def main():
     parser.add_argument("--output_dir", default=None, type=str, required=True,
                         help="The output directory where the model checkpoints and predictions will be written.")
 
+    #pretrainのモデルの指定
+    parser.add_argument("--pretrained_model", action="store_true",
+                        help="Bert pre-trained model selected in the list: bert-base-uncased, "
+                        "bert-large-uncased, bert-base-cased, bert-large-cased, bert-base-multilingual-uncased, "
+                        "bert-base-multilingual-cased, bert-base-chinese.")
+
     ## Other parameters
     #trainファイル
     parser.add_argument("--train_file", default=None, type=str, help="SQuAD json for training. E.g., train-v1.1.json")
@@ -1104,14 +1110,19 @@ def main():
         model_to_save = model.module if hasattr(model, 'module') else model  # Only save the model it-self
 
         # If we save using the predefined names, we can load using `from_pretrained`
+        #data/pytorch_model.bin
         output_model_file = os.path.join(args.output_dir, WEIGHTS_NAME)
+        #data/config.json
         output_config_file = os.path.join(args.output_dir, CONFIG_NAME)
-
         torch.save(model_to_save.state_dict(), output_model_file)
         model_to_save.config.to_json_file(output_config_file)
         tokenizer.save_vocabulary(args.output_dir)
 
         # Load a trained model and vocabulary that you have fine-tuned
+        #モデルのロード
+        model = BertForQuestionAnswering.from_pretrained(args.output_dir)
+        tokenizer = BertTokenizer.from_pretrained(args.output_dir, do_lower_case=args.do_lower_case)
+    elif args.pretrained_model:
         model = BertForQuestionAnswering.from_pretrained(args.output_dir)
         tokenizer = BertTokenizer.from_pretrained(args.output_dir, do_lower_case=args.do_lower_case)
     else:

@@ -55,6 +55,23 @@ python ./run_squad.py \
   --fp16 \
   --loss_scale 128
 
+#testのみでpredict
+python ./run_squad.py \
+  --bert_model bert-base-uncased \
+  --do_predict \
+  --pretrained_model \
+  --output_dir data/modify-interro/ \
+  --do_lower_case \
+  --train_file data/squad-train-modify-interro.json \
+  --predict_file data/squad-dev-modify-interro.json \
+  --learning_rate 3e-5 \
+  --num_train_epochs 2 \
+  --max_seq_length 384 \
+  --doc_stride 128 \
+  --train_batch_size 12 \
+  --gradient_accumulation_steps 2 \
+  --gpu_id 2 --log_file data/log_file.txt
+
 python evaluate.py \
 --dataset_file data/squad-dev-modify-interro.json \
 --prediction_file data/predictions.json
