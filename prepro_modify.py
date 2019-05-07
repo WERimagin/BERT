@@ -104,6 +104,8 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
     all_count=0
     modify_count=0
 
+    modify=False
+
     new_data={"data":[],
                 "version":"1.1"}
     for topic in tqdm(data["data"]):
@@ -145,18 +147,19 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 qas["modify_question"]=False
                 new_paragraph["qas"].append(qas)
 
-                new_qas=qas.copy()
-                new_qas["modify_question"]=True
-                new_qas["id"]=new_qas["id"]+"-modify_question"
-                new_qas["question"]=modify_question
-                new_paragraph["qas"].append(new_qas)
+                if modify:
+                    new_qas=qas.copy()
+                    new_qas["modify_question"]=True
+                    new_qas["id"]=new_qas["id"]+"-modify_question"
+                    new_qas["question"]=modify_question
+                    new_paragraph["qas"].append(new_qas)
 
             new_topic["paragraphs"].append(new_paragraph)
         new_data["data"].append(new_topic)
 
 
-    if use_interro==False:
-        setting="modify-normal"
+    if modify==False:
+        setting="normal"
     else:
         setting="modify-interro"
 
