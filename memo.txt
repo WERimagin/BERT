@@ -56,7 +56,7 @@ python ./run_squad.py \
   --loss_scale 128
 
 python evaluate.py \
---dataset_file data/squad-dev-v1.1.json \
+--dataset_file data/squad-dev-modify-interro.json \
 --prediction_file data/predictions.json
 
 #概要
