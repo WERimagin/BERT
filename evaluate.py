@@ -7,6 +7,13 @@ import argparse
 import json
 import sys
 
+"""
+main
+    evaluate
+        metric_max_over_ground_truths(em)
+        metric_max_over_ground_truths(f1)
+"""
+
 
 def normalize_answer(s):
     """Lower text and remove punctuation, articles and extra whitespace."""
@@ -62,6 +69,8 @@ def evaluate(dataset, predictions):
                               ' will receive score 0.'
                     print(message, file=sys.stderr)
                     continue
+                if qa["modify_question"]!=args.modify:
+                    continue
                 ground_truths = list(map(lambda x: x['text'], qa['answers']))
                 prediction = predictions[qa['id']]
                 exact_match += metric_max_over_ground_truths(
@@ -81,6 +90,7 @@ if __name__ == '__main__':
         description='Evaluation for SQuAD ' + expected_version)
     parser.add_argument('--dataset_file', help='Dataset file')
     parser.add_argument('--prediction_file', help='Prediction File')
+    parser.add_argument('--modify', action="store_true")
     args = parser.parse_args()
     with open(args.dataset_file) as dataset_file:
         dataset_json = json.load(dataset_file)

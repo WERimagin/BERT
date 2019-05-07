@@ -6,9 +6,6 @@ export SQUAD_DIR=/path/to/SQUAD
 largeで1エポック２時間程度
 3エポックで6時間
 
-CONFIG_NAME = "config.json"
-WEIGHTS_NAME = "pytorch_model.bin"
-
 python ./run_squad.py \
   --bert_model bert-base-uncased \
   --do_train \
@@ -94,3 +91,8 @@ BertConfig
   run_squad:squadでのfinetuneの仕方
   fun_swag:SWAGでのfinetune
   simple_lm_finetuning:??のfinetune
+
+run_squad
+CONFIG_NAME = "config.json"
+WEIGHTS_NAME = "pytorch_model.bin"
+train_dataset:
