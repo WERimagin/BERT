@@ -147,7 +147,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 qas["modify_question"]=False
                 new_paragraph["qas"].append(qas)
 
-                if modify:
+                if modify or train==False:
                     new_qas=qas.copy()
                     new_qas["modify_question"]=True
                     new_qas["id"]=new_qas["id"]+"-modify_question"
