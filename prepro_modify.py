@@ -132,7 +132,10 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 modify_question=modify_data[modify_count]
                 modify_count+=1
 
+                question_text=" ".join(tokenize(question_text))
+
                 qas["modify_question"]=False
+                qas["question"]=question_text
                 new_paragraph["qas"].append(qas)
 
                 if modify or train==False:
