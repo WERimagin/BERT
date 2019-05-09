@@ -93,7 +93,6 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 modify_data.append(line.rstrip())
 
     print(len(modify_data))
-    use_interro=True
 
     questions=[]
     answers=[]
@@ -104,7 +103,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
     all_count=0
     modify_count=0
 
-    modify=False
+    modify=True
 
     new_data={"data":[],
                 "version":"1.1"}
@@ -128,18 +127,15 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 if True:
                     #テキストとノンストップワードが一つも重複してないものは除去
                     if check_overlap(sentence_text,question_text,stop_words)==False:
+                        print(sentence_text)
+                        print(question_text)
+                        print()
                         continue
 
                 if True:
                     #疑問詞がないものは削除
                     if interro=="":
                         continue
-
-                if interro[-1]=="?":
-                    interro=interro[:-2]
-
-                if use_interro:
-                    sentence_text=" ".join([sentence_text,"<SEP>",interro])
 
                 modify_question=modify_data[modify_count]
                 modify_count+=1
@@ -177,13 +173,13 @@ if __name__ == "__main__":
 
     data_process(input_path="data/squad-dev-v1.1.json",
                 interro_path="data/squad-data-dev.json",
-                modify_path1="data/squad-pred-val-interro.txt",
-                modify_path2="data/squad-pred-test-interro.txt",
+                modify_path1="data/squad-pred-val-sentence.txt",
+                modify_path2="data/squad-pred-test-sentence.txt",
                 train=False
                 )
 
     data_process(input_path="data/squad-train-v1.1.json",
                 interro_path="data/squad-data-train.json",
-                modify_path1="data/squad-pred-train-interro.txt",
+                modify_path1="data/squad-pred-train-sentence.txt",
                 train=True
                 )

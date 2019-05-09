@@ -24,16 +24,16 @@ python ./run_squad.py \
 
 python ./run_squad.py \
   --bert_model bert-base-uncased \
+  --output_dir data/normal/ \
   --do_train \
   --do_predict \
   --do_lower_case \
-  --train_file data/squad-train-v1.1.json \
-  --predict_file data/squad-dev-v1.1.json \
+  --train_file data/squad-train-normal.json \
+  --predict_file data/squad-dev-normal.json \
   --learning_rate 3e-5 \
   --num_train_epochs 2 \
   --max_seq_length 384 \
   --doc_stride 128 \
-  --output_dir data/ \
   --train_batch_size 12 \
   --gradient_accumulation_steps 2 \
   --gpu_id 2 --log_file data/log_file.txt
@@ -74,7 +74,7 @@ python ./run_squad.py \
 
 python evaluate.py \
 --dataset_file data/squad-dev-modify-interro.json \
---prediction_file data/predictions.json
+--prediction_file data/normal/predictions.json
 
 #概要
 以下のクラスがある
