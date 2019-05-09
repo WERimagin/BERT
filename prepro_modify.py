@@ -131,6 +131,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
 
                 modify_question=modify_data[modify_count]
                 modify_count+=1
+                print(modify_count)
 
                 qas["modify_question"]=False
                 new_paragraph["qas"].append(qas)
@@ -167,13 +168,12 @@ if __name__ == "__main__":
 
     data_process(input_path="data/squad-dev-v1.1.json",
                 interro_path="data/squad-data-dev.json",
-                modify_path1="data/squad-pred-val-sentence.txt",
-                modify_path2="data/squad-pred-test-sentence.txt",
+                modify_path1="data/squad-pred-val-full-sentence.txt",
                 train=False
                 )
 
     data_process(input_path="data/squad-train-v1.1.json",
                 interro_path="data/squad-data-train.json",
-                modify_path1="data/squad-pred-train-sentence.txt",
+                modify_path1="data/squad-pred-train-full-sentence.txt",
                 train=True
                 )
