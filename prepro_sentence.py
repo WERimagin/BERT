@@ -128,7 +128,7 @@ def data_process(input_path,interro_path,train=False):
     print(len(sentences))
 
     setting="interro" if use_interro else "sentence"
-    datatype="train" if train else dev
+    datatype="train" if train else "dev"
 
     random_list=list(range(len(questions)))
     with open("data/squad-src-{}-full-{}.txt".format(datatype,setting),"w")as f:
