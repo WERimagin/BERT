@@ -125,11 +125,6 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 all_count+=1
 
                 if True:
-                    #テキストとノンストップワードが一つも重複してないものは除去
-                    if check_overlap(sentence_text,question_text,stop_words)==False:
-                        continue
-
-                if True:
                     #疑問詞がないものは削除
                     if interro=="":
                         continue
@@ -150,6 +145,8 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
             new_topic["paragraphs"].append(new_paragraph)
         new_data["data"].append(new_topic)
 
+    print(all_count)
+    print(modify_count)
 
     if modify==False:
         setting="normal"
