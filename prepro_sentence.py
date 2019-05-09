@@ -77,22 +77,13 @@ def overlap_rm(sentence):
     return " ".join(new_sentence)
 
 
-def data_process(input_path,interro_path,modify_path1,modify_path2="",train=False):
+def data_process(input_path,interro_path,train=False):
     with open(input_path,"r") as f:
         data=json.load(f)
     with open(interro_path,"r") as f:
         interro_data=json.load(f)
 
-    modify_data=[]
-    with open(modify_path1,"r") as f:
-        for line in f:
-            modify_data.append(line.rstrip())
-    if modify_path2!="":
-        with open(modify_path2,"r") as f:
-            for line in f:
-                modify_data.append(line.rstrip())
-
-    print(len(modify_data))
+    use_interro=False
 
     questions=[]
     answers=[]
@@ -101,21 +92,11 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
     non_interros=[]
     stop_words = stopwords.words('english')
     all_count=0
-    modify_count=0
 
-    modify=True
-
-    new_data={"data":[],
-                "version":"1.1"}
     for topic in tqdm(data["data"]):
-        new_topic={"title":topic["title"],
-                    "paragraphs":[]}
-
-        for paragraph in topic["paragraphs"]:
-            new_paragraph={"context":paragraph["context"],
-                            "qas":[]}
+        topic=topic["paragraphs"]
+        for paragraph in topic:
             context_text=paragraph["context"].lower()
-
             for qas in paragraph["qas"]:
                 sentence_text=interro_data[all_count]["sentence_text"]
                 question_text=interro_data[all_count]["question_text"]
@@ -125,44 +106,37 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 all_count+=1
 
                 if True:
-                    #テキストとノンストップワードが一つも重複してないものは除去
-                    if check_overlap(sentence_text,question_text,stop_words)==False:
-                        continue
-
-                if True:
                     #疑問詞がないものは削除
                     if interro=="":
                         continue
 
-                modify_question=modify_data[modify_count]
-                modify_count+=1
+                if interro[-1]=="?":
+                    print(interro)
+                    interro=interro[:-2]
+                    print(interro)
 
-                qas["modify_question"]=False
-                new_paragraph["qas"].append(qas)
+                if use_interro:
+                    sentence_text=" ".join([sentence_text,"<SEP>",interro])
 
-                if modify or train==False:
-                    new_qas=qas.copy()
-                    new_qas["modify_question"]=True
-                    new_qas["id"]=new_qas["id"]+"-modify_question"
-                    new_qas["question"]=modify_question
-                    new_paragraph["qas"].append(new_qas)
+                sentences.append(sentence_text)
+                questions.append(question_text)
+                answers.append(answer_text)
+                interros.append(interro)
+                non_interros.append(non_interro)
 
-            new_topic["paragraphs"].append(new_paragraph)
-        new_data["data"].append(new_topic)
+    print(all_count)
+    print(len(sentences))
 
+    setting="interro" if use_interro else "sentence"
+    datatype="train" if train else dev
 
-    if modify==False:
-        setting="normal"
-    else:
-        setting="modify-sentence"
-
-    if train:
-        with open("data/squad-train-{}.json".format(setting),"w")as f:
-            json.dump(new_data,f,indent=4)
-    else:
-        with open("data/squad-dev-{}.json".format(setting),"w")as f:
-            json.dump(new_data,f,indent=4)
-
+    random_list=list(range(len(questions)))
+    with open("data/squad-src-{}-full-{}.txt".format(datatype,setting),"w")as f:
+        for i in random_list:
+            f.write(sentences[i]+"\n")
+    with open("data/squad-tgt-{}-full-{}.txt".format(datatype,setting),"w")as f:
+        for i in random_list:
+            f.write(questions[i]+"\n")
 
 
 if __name__ == "__main__":
@@ -170,13 +144,10 @@ if __name__ == "__main__":
 
     data_process(input_path="data/squad-dev-v1.1.json",
                 interro_path="data/squad-data-dev.json",
-                modify_path1="data/squad-pred-val-sentence.txt",
-                modify_path2="data/squad-pred-test-sentence.txt",
                 train=False
                 )
 
     data_process(input_path="data/squad-train-v1.1.json",
                 interro_path="data/squad-data-train.json",
-                modify_path1="data/squad-pred-train-sentence.txt",
                 train=True
                 )
