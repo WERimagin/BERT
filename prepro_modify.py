@@ -127,14 +127,13 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                 if True:
                     #テキストとノンストップワードが一つも重複してないものは除去
                     if check_overlap(sentence_text,question_text,stop_words)==False:
-                        print(sentence_text)
-                        print(question_text)
-                        print()
                         continue
 
                 if True:
                     #疑問詞がないものは削除
                     if interro=="":
+                        print(question_text)
+                        print()
                         continue
 
                 modify_question=modify_data[modify_count]
