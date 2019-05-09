@@ -133,6 +133,7 @@ def data_process(input_path,interro_path,modify_path1,modify_path2="",train=Fals
                     #疑問詞がないものは削除
                     if interro=="":
                         print(question_text)
+                        print(answer_text)
                         print()
                         continue
 
