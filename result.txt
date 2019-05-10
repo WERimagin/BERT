@@ -21,3 +21,16 @@ normal
   modify
   {"exact_match": 49.39919893190921, "f1": 58.969131256718434}
 }
+
+modify-sentebnce
+{
+  python evaluate.py \
+  --dataset_file data/squad-dev-modify-sentence.json \
+  --prediction_file data/modify-sentence/predictions.json
+
+  normal
+  {"exact_match": 75.68322361859167, "f1": 84.03955229519701}
+  modify-sentence
+  (python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-sentence.json --prediction_file data/modify-sentence/predictions.json --modify
+  {"exact_match": 31.956912028725313, "f1": 40.99806001331071}
+}
