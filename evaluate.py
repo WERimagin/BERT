@@ -65,13 +65,13 @@ def evaluate(dataset, predictions):
             for qa in paragraph['qas']:
                 if qa["modify_question"]!=args.modify:
                     continue
+                if args.interro!="" and args.interro not in qa["question"]:
+                    continue
                 total += 1
                 if qa['id'] not in predictions:
                     message = 'Unanswered question ' + qa['id'] + \
                               ' will receive score 0.'
                     print(message, file=sys.stderr)
-                    continue
-                if args.interro!="" and args.interro not in qa["question"]:
                     continue
                 ground_truths = list(map(lambda x: x['text'], qa['answers']))
                 prediction = predictions[qa['id']]
