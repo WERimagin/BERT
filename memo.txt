@@ -73,8 +73,8 @@ python ./run_squad.py \
   --gpu_id 2 --log_file data/log_file.txt
 
 python evaluate.py \
---dataset_file data/squad-dev-modify-sentence.json \
---prediction_file data/modify-sentence/predictions.json
+--dataset_file data/squad-dev-modify-interro.json \
+--prediction_file data/modify-interro/predictions.json
 
 #概要
 以下のクラスがある

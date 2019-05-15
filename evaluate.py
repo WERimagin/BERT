@@ -60,13 +60,18 @@ def metric_max_over_ground_truths(metric_fn, prediction, ground_truths):
 
 def evaluate(dataset, predictions):
     f1 = exact_match = total = 0
+    all_count=-1
+    with open(args.interro_data) as f:
+        interro_data=json.load(f)
     for article in dataset:
         for paragraph in article['paragraphs']:
             for qa in paragraph['qas']:
+                all_count+=1
                 if qa["modify_question"]!=args.modify:
                     continue
-                if args.interro!="" and args.interro not in qa["question"]:
-                    continue
+                if args.interro!="":
+                    if not(args.interro in interro_data[int(all_count/2)]):
+                        continue
                 total += 1
                 if qa['id'] not in predictions:
                     message = 'Unanswered question ' + qa['id'] + \
@@ -94,6 +99,7 @@ if __name__ == '__main__':
     parser.add_argument('--prediction_file', help='Prediction File')
     parser.add_argument('--modify', action="store_true")
     parser.add_argument('--interro', type=str, default="")
+    parser.add_argument('--interro_data', type=str, default="data/squad-data-dev.json")
     args = parser.parse_args()
     with open(args.dataset_file) as dataset_file:
         dataset_json = json.load(dataset_file)
