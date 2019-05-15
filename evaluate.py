@@ -70,7 +70,7 @@ def evaluate(dataset, predictions):
                 if qa["modify_question"]!=args.modify:
                     continue
                 if args.interro!="":
-                    if not(args.interro in interro_data[interro][int(all_count/2)]):
+                    if not(args.interro in interro_data[int(all_count/2)][interro]):
                         continue
                 total += 1
                 if qa['id'] not in predictions:
