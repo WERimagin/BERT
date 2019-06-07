@@ -74,7 +74,7 @@ def evaluate(dataset, predictions):
                     if args.interro!="":
                         if not(args.interro in interro_data[int(all_count/2)]["interro"]):
                             continue
-                    total += 1
+                total += 1
                 if qa['id'] not in predictions:
                     message = 'Unanswered question ' + qa['id'] + \
                               ' will receive score 0.'
