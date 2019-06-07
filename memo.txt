@@ -11,10 +11,10 @@ python ./run_squad.py \
   --do_train \
   --do_predict \
   --do_lower_case \
-  --train_file data/squad-train-modify-interro.json \
-  --predict_file data/squad-dev-modify-interro.json \
+  --train_file data/squad-train-nqg-original-modify.json \
+  --predict_file data/squad-dev-nqg-original-modify.json \
   --learning_rate 3e-5 \
-  --num_train_epochs 2 \
+  --num_train_epochs 3 \
   --max_seq_length 384 \
   --doc_stride 128 \
   --output_dir data/ \

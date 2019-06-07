@@ -34,3 +34,52 @@ modify-sentebnce
   (python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-sentence.json --prediction_file data/modify-sentence/predictions.json --modify
   {"exact_match": 31.956912028725313, "f1": 40.99806001331071}
 }
+
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --interro what
+5181 19473
+{"exact_match": 77.45608955800039, "f1": 85.46595197288222}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --interro why
+143 19473
+{"exact_match": 74.82517482517483, "f1": 85.02040674356782}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --interro where
+426 19473
+{"exact_match": 73.70892018779342, "f1": 83.3112262286047}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --interro who
+1070 19473
+{"exact_match": 77.38317757009345, "f1": 84.76083612672865}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --interro which
+635 19473
+{"exact_match": 79.21259842519684, "f1": 86.71192040293673}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --interro when
+639 19473
+{"exact_match": 78.56025039123631, "f1": 86.26168239607861}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --interro how
+1149 19473
+{"exact_match": 75.80504786771105, "f1": 84.47670320312378}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro how
+1149 19473
+{"exact_match": 55.35248041775457, "f1": 65.3069878409102}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify
+9737 19473
+{"exact_match": 58.30337886412653, "f1": 67.59028052362854}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro what
+5181 19473
+{"exact_match": 59.0040532715692, "f1": 68.17817082048713}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro which
+635 19473
+{"exact_match": 61.889763779527556, "f1": 69.96942558775935}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro where
+426 19473
+{"exact_match": 53.051643192488264, "f1": 65.81483261463347}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro who
+1070 19473
+{"exact_match": 58.691588785046726, "f1": 67.57046611381755}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro why
+143 19473
+{"exact_match": 61.53846153846154, "f1": 70.83169213929334}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro when
+639 19473
+{"exact_match": 55.55555555555556, "f1": 65.798708036044}
+(python3.6.5) sasazawa@iris:~/BERT$ python evaluate.py --dataset_file data/squad-dev-modify-interro.json --prediction_file data/modify-interro/predictions.json --modify --interro how
+1149 19473
+{"exact_match": 55.35248041775457, "f1": 65.3069878409102}

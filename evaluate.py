@@ -61,18 +61,20 @@ def metric_max_over_ground_truths(metric_fn, prediction, ground_truths):
 def evaluate(dataset, predictions):
     f1 = exact_match = total = 0
     all_count=-1
-    with open(args.interro_data) as f:
-        interro_data=json.load(f)
+    if 0:
+        with open(args.interro_data) as f:
+            interro_data=json.load(f)
     for article in dataset:
         for paragraph in article['paragraphs']:
             for qa in paragraph['qas']:
-                all_count+=1
-                if qa["modify_question"]!=args.modify:
-                    continue
-                if args.interro!="":
-                    if not(args.interro in interro_data[int(all_count/2)]["interro"]):
+                if 0:
+                    all_count+=1
+                    if qa["modify_question"]!=args.modify:
                         continue
-                total += 1
+                    if args.interro!="":
+                        if not(args.interro in interro_data[int(all_count/2)]["interro"]):
+                            continue
+                    total += 1
                 if qa['id'] not in predictions:
                     message = 'Unanswered question ' + qa['id'] + \
                               ' will receive score 0.'
