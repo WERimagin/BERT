@@ -11,8 +11,9 @@ python ./run_squad.py \
   --do_train \
   --do_predict \
   --do_lower_case \
-  --train_file data/squad-train-nqg-original-modify.json \
-  --predict_file data/squad-dev-nqg-original-modify.json \
+  --output_dir data/interro-original/ \
+  --train_file data/squad-train-interro-original.json \
+  --predict_file data/squad-dev-interro-original.json \
   --learning_rate 3e-5 \
   --num_train_epochs 3 \
   --max_seq_length 384 \
@@ -73,8 +74,8 @@ python ./run_squad.py \
   --gpu_id 2 --log_file data/log_file.txt
 
 python evaluate.py \
---dataset_file data/squad-dev-modify-interro.json \
---prediction_file data/modify-interro/predictions.json
+--dataset_file data/squad-dev-interro-original-modify.json \
+--prediction_file data/interro-original-modify/predictions.json
 
 #概要
 以下のクラスがある

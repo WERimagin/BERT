@@ -953,9 +953,10 @@ def main():
     #データを保存するフォルダがすでに作成されている場合。消します
     if os.path.exists(args.output_dir) and os.listdir(args.output_dir) and args.do_train:
         raise ValueError("Output directory () already exists and is not empty.")
+    """
     if not os.path.exists(args.output_dir):
         os.makedirs(args.output_dir)
-    """
+
 
     #トークナイザ
     tokenizer = BertTokenizer.from_pretrained(args.bert_model, do_lower_case=args.do_lower_case)
