@@ -93,8 +93,8 @@ def evaluate(dataset, predictions):
                     print(src_sentence)
                     print(qa["question"])
                     print(ground_truths)
-                    print(metric_max_over_ground_truths(exact_match_score, prediction, ground_truths))
                     print(prediction)
+                    print(metric_max_over_ground_truths(exact_match_score, prediction, ground_truths))
                     print()
 
                 exact_match += metric_max_over_ground_truths(
