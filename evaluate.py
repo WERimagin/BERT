@@ -61,6 +61,7 @@ def metric_max_over_ground_truths(metric_fn, prediction, ground_truths):
 def evaluate(dataset, predictions):
     f1 = exact_match = 0
     total=-1
+    all_count=0
 
     src_data=[]
     with open("data/squad-src-dev-full-interro.txt") as f:
@@ -86,6 +87,7 @@ def evaluate(dataset, predictions):
                               ' will receive score 0.'
                     print(message, file=sys.stderr)
                     continue
+                all_count+=1
                 ground_truths = list(map(lambda x: x['text'], qa['answers']))
                 prediction = predictions[qa['id']]
 
@@ -103,8 +105,8 @@ def evaluate(dataset, predictions):
                     f1_score, prediction, ground_truths)
 
     total+=1
-    exact_match = 100.0 * exact_match / total
-    f1 = 100.0 * f1 / total
+    exact_match = 100.0 * exact_match / all_count
+    f1 = 100.0 * f1 / all_count
 
     return {'exact_match': exact_match, 'f1': f1}
 
