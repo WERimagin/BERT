@@ -63,7 +63,7 @@ def evaluate(dataset, predictions):
     all_count=-1
 
     src_data=[]
-    with open(arg.src) as f:
+    with open(args.src) as f:
         for line in f:
             src_data.append(line.strip())
 
@@ -120,6 +120,7 @@ if __name__ == '__main__':
     parser.add_argument('--src', type=str, default="")
     parser.add_argument('--print', type=int, default="0")
     args = parser.parse_args()
+
     with open(args.dataset_file) as dataset_file:
         dataset_json = json.load(dataset_file)
         if (dataset_json['version'] != expected_version):
