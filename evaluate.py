@@ -61,9 +61,13 @@ def metric_max_over_ground_truths(metric_fn, prediction, ground_truths):
 def evaluate(dataset, predictions):
     f1 = exact_match = total = 0
     all_count=-1
-    if 0:
-        with open(args.interro_data) as f:
-            interro_data=json.load(f)
+
+    src_data=[]
+    with open(arg.src) as f:
+        for line in f:
+            src_data.append(line.strip())
+
+
     for article in dataset:
         for paragraph in article['paragraphs']:
             for qa in paragraph['qas']:
@@ -74,7 +78,9 @@ def evaluate(dataset, predictions):
                     if args.interro!="":
                         if not(args.interro in interro_data[int(all_count/2)]["interro"]):
                             continue
+                src_sentence=src_data[total]
                 total += 1
+
                 if qa['id'] not in predictions:
                     message = 'Unanswered question ' + qa['id'] + \
                               ' will receive score 0.'
@@ -82,6 +88,14 @@ def evaluate(dataset, predictions):
                     continue
                 ground_truths = list(map(lambda x: x['text'], qa['answers']))
                 prediction = predictions[qa['id']]
+
+                if total<=args.print:
+                    print(src_sentence)
+                    print(qa["question"])
+                    print(qa["answers"][0]["text"])
+                    print(prediction)
+                    print()
+
                 exact_match += metric_max_over_ground_truths(
                     exact_match_score, prediction, ground_truths)
                 f1 += metric_max_over_ground_truths(
@@ -102,6 +116,9 @@ if __name__ == '__main__':
     parser.add_argument('--modify', action="store_true")
     parser.add_argument('--interro', type=str, default="")
     parser.add_argument('--interro_data', type=str, default="data/squad-data-dev.json")
+
+    parser.add_argument('--src', type=str, default="")
+    parser.add_argument('--print', type=int, default="0")
     args = parser.parse_args()
     with open(args.dataset_file) as dataset_file:
         dataset_json = json.load(dataset_file)
