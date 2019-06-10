@@ -59,27 +59,27 @@ def metric_max_over_ground_truths(metric_fn, prediction, ground_truths):
 
 
 def evaluate(dataset, predictions):
-    f1 = exact_match = total = 0
-    all_count=-1
+    f1 = exact_match = 0
+    total=-1
 
     src_data=[]
-    with open(args.src) as f:
+    with open("data/squad-src-dev-full-interro.txt") as f:
         for line in f:
             src_data.append(line.strip())
+
+    interro_data=[]
+    with open("data/squad-interro-dev-full-interro.txt") as f:
+        for line in f:
+            interro_data.append(line.strip())
 
 
     for article in dataset:
         for paragraph in article['paragraphs']:
             for qa in paragraph['qas']:
-                if 0:
-                    all_count+=1
-                    if qa["modify_question"]!=args.modify:
-                        continue
-                    if args.interro!="":
-                        if not(args.interro in interro_data[int(all_count/2)]["interro"]):
-                            continue
-                src_sentence=src_data[total]
                 total += 1
+                src_sentence=src_data[total]
+                if args.interro!="" and args.interro not in interro_data[total]:
+                    continue
 
                 if qa['id'] not in predictions:
                     message = 'Unanswered question ' + qa['id'] + \
@@ -102,6 +102,7 @@ def evaluate(dataset, predictions):
                 f1 += metric_max_over_ground_truths(
                     f1_score, prediction, ground_truths)
 
+    total+=1
     exact_match = 100.0 * exact_match / total
     f1 = 100.0 * f1 / total
 
@@ -115,9 +116,8 @@ if __name__ == '__main__':
     parser.add_argument('--dataset_file', help='Dataset file')
     parser.add_argument('--prediction_file', help='Prediction File')
     parser.add_argument('--modify', action="store_true")
-    parser.add_argument('--interro', type=str, default="")
-    parser.add_argument('--interro_data', type=str, default="data/squad-data-dev.json")
 
+    parser.add_argument('--interro', type=str, default="")
     parser.add_argument('--src', type=str, default="")
     parser.add_argument('--print', type=int, default="0")
     args = parser.parse_args()
