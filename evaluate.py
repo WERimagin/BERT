@@ -108,6 +108,8 @@ def evaluate(dataset, predictions):
     exact_match = 100.0 * exact_match / all_count
     f1 = 100.0 * f1 / all_count
 
+    print(all_count)
+
     return {'exact_match': exact_match, 'f1': f1}
 
 
