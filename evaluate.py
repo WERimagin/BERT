@@ -81,7 +81,8 @@ def evaluate(dataset, predictions):
                 src_sentence=src_data[total]
                 if args.interro!="" and args.interro not in interro_data[total]:
                     continue
-
+                if "<UNK>" in qa["question"]:
+                    continue
                 if qa['id'] not in predictions:
                     message = 'Unanswered question ' + qa['id'] + \
                               ' will receive score 0.'
@@ -90,14 +91,6 @@ def evaluate(dataset, predictions):
                 all_count+=1
                 ground_truths = list(map(lambda x: x['text'], qa['answers']))
                 prediction = predictions[qa['id']]
-
-                if total<=args.print:
-                    print(src_sentence)
-                    print(qa["question"])
-                    print(ground_truths)
-                    print(prediction)
-                    print(metric_max_over_ground_truths(exact_match_score, prediction, ground_truths))
-                    print()
 
                 exact_match += metric_max_over_ground_truths(
                     exact_match_score, prediction, ground_truths)
